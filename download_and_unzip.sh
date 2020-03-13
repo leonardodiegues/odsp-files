@@ -21,13 +21,12 @@ for i in $OD_YEARS; do
         DOWNLOAD_URL="$URL_BASE/Pesquisa_Origem_Destino-$i.zip"
     fi
     DOWNLOAD_PATH="$DATA_PATH/OD_$i.zip"
-    OUTFILE="$DATA_PATH/OD_$i.sav"
+    OUTFILE="$DATA_PATH/od-$i.dbf"
     curl $DOWNLOAD_URL -o $DOWNLOAD_PATH
-    ZIPFILE="$(zipinfo -1 $DOWNLOAD_PATH | egrep "\\.sav$")"
+    ZIPFILE="$(zipinfo -1 $DOWNLOAD_PATH | egrep "Banco(.*?)\\.dbf$")"
     OUTZIP="$DATA_PATH/$ZIPFILE"
     unzip $DOWNLOAD_PATH "$ZIPFILE" -d "$DATA_PATH"
     mv "$OUTZIP" "$OUTFILE"
-    bzip2 -z $OUTFILE
     cd $DATA_PATH && rm -R -- */
     cd ../
     rm $DOWNLOAD_PATH
